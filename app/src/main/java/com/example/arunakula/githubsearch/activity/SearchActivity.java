@@ -1,12 +1,16 @@
 package com.example.arunakula.githubsearch.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ActionMenuView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 import com.example.arunakula.githubsearch.rest.ApiClient;
@@ -26,6 +30,7 @@ import retrofit2.Response;
 
 public class SearchActivity extends Activity {
     private String receivedSearchName;
+    private TextView emptyText;
     private RecyclerView mRecyclerView;
     private List<Search> myDataSource = new ArrayList<>();
     private RecyclerView.Adapter myAdapter;
@@ -35,6 +40,7 @@ public class SearchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
+        emptyText = (TextView)findViewById(R.id.emptytext);
         Bundle bundle = getIntent().getExtras();
         receivedSearchName = bundle.getString("key");
         Log.v("SearchActivity", "receivedSearchName :" + receivedSearchName);
@@ -42,7 +48,21 @@ public class SearchActivity extends Activity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         myAdapter = new SearchAdapter(myDataSource, getApplicationContext(), R.layout.search_list);
         mRecyclerView.setAdapter(myAdapter);
-        loadData();
+
+        ConnectivityManager mgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = mgr.getActiveNetworkInfo();
+        if(netInfo!=null){
+            if(netInfo.isConnected()){
+                if(!receivedSearchName.isEmpty() && receivedSearchName!=null){
+                    loadData();
+                }else{
+                    emptyText.setText("Please Enter Any Search Key");
+                }
+            }
+        }else{
+            emptyText.setText("Please Check Your Internet Connection");
+        }
+
     }
 
     public void loadData() {
@@ -68,6 +88,7 @@ public class SearchActivity extends Activity {
 
             @Override
             public void onFailure(Call<SearchReceived> call, Throwable t) {
+                Log.e("SearchActivity","Failure Response");
 
             }
         });
