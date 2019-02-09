@@ -14,7 +14,7 @@
         android:layout_marginStart="3dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Enter Repo Name"
+        android:hint="Enter Repo Name"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp" />
 

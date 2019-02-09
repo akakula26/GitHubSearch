@@ -22,6 +22,10 @@ public class Search {
     @SerializedName("description")
     private String Description;
 
+
+    @SerializedName("stargazers_count")
+    private String Star_Count;
+
     @SerializedName("owner")
     private HashMap<String,String> owner = new HashMap<>();
 
@@ -78,5 +82,11 @@ public class Search {
         Avatar_Url = avatar_Url;
     }
 
+    public String getStar_Count() {
+        return Star_Count;
+    }
 
+    public void setStar_Count(String star_Count) {
+        Star_Count = star_Count;
+    }
 }

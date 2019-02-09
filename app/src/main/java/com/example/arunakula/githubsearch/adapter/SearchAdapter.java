@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.arunakula.githubsearch.R;
 import com.example.arunakula.githubsearch.model.Search;
+import com.squareup.picasso.Picasso;
 
 import java.util.Iterator;
 import java.util.List;
@@ -66,7 +68,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         private TextView fullname;
         private TextView privates;
         private TextView description;
-        private TextView avatar;
+        private ImageView avatar;
+        private TextView starcount;
 
 
         public SearchViewHolder(@NonNull View itemView) {
@@ -76,7 +79,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             fullname = (TextView) itemView.findViewById(R.id.fullname);
             privates = (TextView) itemView.findViewById(R.id.privates);
             description = (TextView) itemView.findViewById(R.id.description);
-            avatar = (TextView) itemView.findViewById(R.id.avatar);
+            avatar = (ImageView) itemView.findViewById(R.id.avatar);
+            starcount = (TextView) itemView.findViewById(R.id.startcount);
+
         }
 
 
@@ -97,13 +102,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         searchViewHolder.fullname.setText("Full Name: " + searches.get(position).getFull_Name());
         searchViewHolder.privates.setText("Private: " + searches.get(position).getPrivate());
         searchViewHolder.description.setText("Description: " + searches.get(position).getDescription());
+        searchViewHolder.starcount.setText( getApplicationContext.getString(R.string.black_rect)+ searches.get(position).getStar_Count());
+
+
 
         Iterator<Map.Entry<String,String>> it  = searches.get(position).getOwner().entrySet().iterator();
 
         while (it.hasNext()){
             Map.Entry<String, String> pair = it.next();
             if(pair.getKey().equals("avatar_url")) {
-                searchViewHolder.avatar.setText("Avatar: " + pair.getValue());
+                Picasso.get().load(pair.getValue()).into(searchViewHolder.avatar);
             }
         }
 

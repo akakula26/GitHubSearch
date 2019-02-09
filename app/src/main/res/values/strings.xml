@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GitHubSearch</string>
+    <string name="black_rect">\u25A1</string>
 </resources>

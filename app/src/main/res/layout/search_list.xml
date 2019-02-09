@@ -33,11 +33,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/privates"
         android:text="TextView" />
-
     <TextView
-        android:id="@+id/avatar"
+        android:id="@+id/startcount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/description"
-        android:text="TextView" />
+        />
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startcount"
+        />
+
 </RelativeLayout>

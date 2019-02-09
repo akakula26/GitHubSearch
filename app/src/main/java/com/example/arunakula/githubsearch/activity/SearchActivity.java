@@ -21,6 +21,7 @@ import com.example.arunakula.githubsearch.model.Search;
 import com.example.arunakula.githubsearch.model.SearchReceived;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -44,6 +45,7 @@ public class SearchActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         receivedSearchName = bundle.getString("key");
         Log.v("SearchActivity", "receivedSearchName :" + receivedSearchName);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.serach_recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         myAdapter = new SearchAdapter(myDataSource, getApplicationContext(), R.layout.search_list);
@@ -67,7 +69,10 @@ public class SearchActivity extends Activity {
 
     public void loadData() {
         final ApiInterface apiService = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<SearchReceived> call = apiService.githubSearch(receivedSearchName);
+        LinkedHashMap<String,String> searchFilters = new LinkedHashMap<>();
+        searchFilters.put("sort","stars");
+        searchFilters.put("order","desc");
+        Call<SearchReceived> call = apiService.githubSearch(receivedSearchName,searchFilters);
         call.enqueue(new Callback<SearchReceived>() {
             @Override
             public void onResponse(Call<SearchReceived> call, Response<SearchReceived> response) {
